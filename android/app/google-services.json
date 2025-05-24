@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "609822869170",
+    "firebase_url": "https://samx-e034f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "samx-e034f",
+    "storage_bucket": "samx-e034f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609822869170:android:c689c52324f22898e9abab",
+        "android_client_info": {
+          "package_name": "com.samx.havadurumu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNTKdM4o-zX_JA6x0kx4IAOdtF3x_yVLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
