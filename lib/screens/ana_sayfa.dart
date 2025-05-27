@@ -10,7 +10,8 @@ class AnaSayfa extends StatefulWidget {
   State<AnaSayfa> createState() => _AnaSayfaState();
 }
 
-class _AnaSayfaState extends State<AnaSayfa> with SingleTickerProviderStateMixin {
+class _AnaSayfaState extends State<AnaSayfa>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -31,48 +32,76 @@ class _AnaSayfaState extends State<AnaSayfa> with SingleTickerProviderStateMixin
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        toolbarHeight: 100,
+        toolbarHeight: 110,
         centerTitle: true,
-        title: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "SAMX Hava Durumu İstasyonları",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: Color.fromARGB(255, 14, 13, 15),
-                fontFamily: 'Poppins',
-              ),
-              textAlign: TextAlign.center,
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: Colors.deepPurple.shade200.withOpacity(0.6),
+              width: 1,
             ),
-            SizedBox(height: 6),
-            Text(
-              "Anlık ve Günlük Hava Verileri",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Color.fromARGB(255, 14, 13, 15),
-                fontFamily: 'Poppins',
+            boxShadow: [
+              BoxShadow(
+                color: Colors.deepPurple.shade100.withOpacity(0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ShaderMask(
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [
+                    Colors.deepPurple.shade400.withOpacity(0.8),
+                    Colors.deepPurple.shade700.withOpacity(0.8),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ).createShader(
+                    Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
+                child: Text(
+                  "SAMX",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                "Hava Durumu İstasyonları",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Poppins',
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ],
+          ),
         ),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.deepPurple.shade400,
-          indicatorWeight: 3,
-          labelColor: Colors.deepPurple.shade600,
-          unselectedLabelColor: Colors.deepPurple.shade200,
+          indicatorWeight: 2,
+          labelColor: Colors.deepPurple.shade500,
+          unselectedLabelColor: Colors.grey.shade500,
           labelStyle: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
             fontFamily: 'Poppins',
           ),
           unselectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.normal,
-            fontSize: 14,
+            fontSize: 13,
             fontFamily: 'Poppins',
           ),
           tabs: const [

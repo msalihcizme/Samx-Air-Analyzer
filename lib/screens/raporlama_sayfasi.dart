@@ -113,12 +113,12 @@ class _RaporlamaSayfasiState extends State<RaporlamaSayfasi> {
             backgroundColor: Colors.white,
             elevation: 0,
             title: secilenTarihAraligi == null
-                ?    Text(
+                ? Text(
                     'Lütfen tarih aralığı seçiniz',
                     style: TextStyle(
-                      fontWeight: FontWeight.w300, // biraz daha kalın
-                      fontStyle: FontStyle.italic, // italik
-                      fontSize: 20, // büyütüldü
+                      fontWeight: FontWeight.w200,
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14,
                       letterSpacing: 1.5,
                       foreground: Paint()
                         ..shader = const LinearGradient(
@@ -238,119 +238,121 @@ class _RaporlamaSayfasiState extends State<RaporlamaSayfasi> {
       );
 
   Widget _buildLineChart(
-  String baslik,
-  List<Map<String, dynamic>> veriListesi,
-  double minY,
-  double maxY,
-  Color color,
-  String yAxisSuffix,
-  double Function(Map<String, dynamic>) valueSelector, {
-  double yInterval = 10,
-  required String tooltipLabel,
-}) {
-  final spots = veriListesi
-      .map((e) => FlSpot((e['saat'] as int).toDouble(), valueSelector(e)))
-      .toList();
+    String baslik,
+    List<Map<String, dynamic>> veriListesi,
+    double minY,
+    double maxY,
+    Color color,
+    String yAxisSuffix,
+    double Function(Map<String, dynamic>) valueSelector, {
+    double yInterval = 10,
+    required String tooltipLabel,
+  }) {
+    final spots = veriListesi
+        .map((e) => FlSpot((e['saat'] as int).toDouble(), valueSelector(e)))
+        .toList();
 
-  return SizedBox(
-    height: 200,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(baslik,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: color, fontSize: 16)),
-        const SizedBox(height: 6),
-        Expanded(
-          child: LineChart(
-            LineChartData(
-              minX: 0,
-              maxX: 23,
-              minY: minY,
-              maxY: maxY,
-              lineBarsData: [
-                LineChartBarData(
-                  spots: spots,
-                  isCurved: true,
-                  color: color,
-                  barWidth: 3,
-                  dotData: FlDotData(show: true),
-                  belowBarData: BarAreaData(
-                    show: true,
-                    color: color.withOpacity(0.3),
+    return SizedBox(
+      height: 200,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(baslik,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: color, fontSize: 16)),
+          const SizedBox(height: 6),
+          Expanded(
+            child: LineChart(
+              LineChartData(
+                minX: 0,
+                maxX: 23,
+                minY: minY,
+                maxY: maxY,
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: spots,
+                    isCurved: true,
+                    color: color,
+                    barWidth: 3,
+                    dotData: FlDotData(show: true),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: color.withOpacity(0.3),
+                    ),
                   ),
+                ],
+                gridData: FlGridData(
+                  show: true,
+                  horizontalInterval: yInterval,
+                  verticalInterval: 3,
                 ),
-              ],
-              gridData: FlGridData(
-                show: true,
-                horizontalInterval: yInterval,
-                verticalInterval: 3,
-              ),
-              titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    interval: 3,
-                    getTitlesWidget: (value, meta) {
-                      final hour = value.toInt().toString().padLeft(2, '0');
-                      return Text('$hour.00');
+                titlesData: FlTitlesData(
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      interval: 3,
+                      getTitlesWidget: (value, meta) {
+                        final hour = value.toInt().toString().padLeft(2, '0');
+                        return Text('$hour.00');
+                      },
+                    ),
+                  ),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      interval: yInterval,
+                      reservedSize: 35,
+                      getTitlesWidget: (value, meta) {
+                        // Sadece basınç grafiğinde yAxisSuffix gösterme
+                        final showSuffix = yAxisSuffix != 'hPa';
+                        return Text(
+                          '${value.toInt()}${showSuffix ? yAxisSuffix : ''}',
+                          softWrap: false,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                        );
+                      },
+                    ),
+                  ),
+                  rightTitles:
+                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles:
+                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                borderData: FlBorderData(
+                  show: true,
+                  border: Border.all(color: Colors.black26),
+                ),
+                lineTouchData: LineTouchData(
+                  enabled: true,
+                  handleBuiltInTouches: true,
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: Colors.black87,
+                    tooltipRoundedRadius: 8,
+                    tooltipPadding: const EdgeInsets.all(8),
+                    getTooltipItems: (touchedSpots) {
+                      return touchedSpots.map((spot) {
+                        final hour =
+                            spot.x.toInt().toString().padLeft(2, '0') + ':00';
+                        final value = spot.y.toStringAsFixed(1);
+
+                        return LineTooltipItem(
+                          'Saat: $hour\n$tooltipLabel: $value$yAxisSuffix',
+                          const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        );
+                      }).toList();
                     },
                   ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    interval: yInterval,
-                    reservedSize: 35,
-                    getTitlesWidget: (value, meta) {
-                      // Sadece basınç grafiğinde yAxisSuffix gösterme
-                      final showSuffix = yAxisSuffix != 'hPa';
-                      return Text(
-                        '${value.toInt()}${showSuffix ? yAxisSuffix : ''}',
-                        softWrap: false,
-                        maxLines: 1,
-                        textAlign: TextAlign.center,
-                      );
-                    },
-                  ),
-                ),
-                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              ),
-              borderData: FlBorderData(
-                show: true,
-                border: Border.all(color: Colors.black26),
-              ),
-              lineTouchData: LineTouchData(
-                enabled: true,
-                handleBuiltInTouches: true,
-                touchTooltipData: LineTouchTooltipData(
-                  tooltipBgColor: Colors.black87,
-                  tooltipRoundedRadius: 8,
-                  tooltipPadding: const EdgeInsets.all(8),
-                  getTooltipItems: (touchedSpots) {
-                    return touchedSpots.map((spot) {
-                      final hour = spot.x.toInt().toString().padLeft(2, '0') + ':00';
-                      final value = spot.y.toStringAsFixed(1);
-
-                      return LineTooltipItem(
-                        'Saat: $hour\n$tooltipLabel: $value$yAxisSuffix',
-                        const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      );
-                    }).toList();
-                  },
                 ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 }

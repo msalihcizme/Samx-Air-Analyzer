@@ -135,7 +135,7 @@ class _GunlukVeriSayfasiState extends State<GunlukVeriSayfasi> {
             ),
           )
         else
-          const Center(child: Text("Günlük ortalama veri bulunamadı")),
+          const Center(child: Text("Günlük ortalama verilerine ulaşılamıyor")),
         const Text("Saatlik Ortalamalar", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         saatlikVeriler.isNotEmpty
