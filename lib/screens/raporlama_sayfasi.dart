@@ -293,7 +293,14 @@ class _RaporlamaSayfasiState extends State<RaporlamaSayfasi> {
                       interval: 3,
                       getTitlesWidget: (value, meta) {
                         final hour = value.toInt().toString().padLeft(2, '0');
-                        return Text('$hour.00');
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              right: 16), 
+                          child: Text(
+                            '$hour.00',
+                            style: const TextStyle(),
+                          ),
+                        );
                       },
                     ),
                   ),
@@ -303,7 +310,7 @@ class _RaporlamaSayfasiState extends State<RaporlamaSayfasi> {
                       interval: yInterval,
                       reservedSize: 35,
                       getTitlesWidget: (value, meta) {
-                        // Sadece basınç grafiğinde yAxisSuffix gösterme
+                        // Sadece basınç grafiğinde yAxisSuffix göstermedik
                         final showSuffix = yAxisSuffix != 'hPa';
                         return Text(
                           '${value.toInt()}${showSuffix ? yAxisSuffix : ''}',
