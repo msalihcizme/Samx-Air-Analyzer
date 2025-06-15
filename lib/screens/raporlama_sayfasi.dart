@@ -310,7 +310,6 @@ class _RaporlamaSayfasiState extends State<RaporlamaSayfasi> {
                       interval: yInterval,
                       reservedSize: 35,
                       getTitlesWidget: (value, meta) {
-                        // Sadece basınç grafiğinde yAxisSuffix göstermedik
                         final showSuffix = yAxisSuffix != 'hPa';
                         return Text(
                           '${value.toInt()}${showSuffix ? yAxisSuffix : ''}',

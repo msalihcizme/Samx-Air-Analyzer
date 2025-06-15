@@ -1,9 +1,9 @@
 class SaatlikOrtalama {
-  final String hour;  // Örn: "00:00", "01-00" gibi string olabilir
+  final String hour;  
   final double humidity;
   final double pressure;
   final double temperatureDht;
-  final int? timestamp;  // Bazı verilerde timestamp olabilir, opsiyonel
+  final int? timestamp;  
 
   SaatlikOrtalama({
     required this.hour,

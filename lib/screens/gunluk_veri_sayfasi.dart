@@ -33,7 +33,6 @@ class _GunlukVeriSayfasiState extends State<GunlukVeriSayfasi> {
     final secilenTarih = Provider.of<TarihProvider>(context, listen: false).secilenGun;
     final tarihStr = "${secilenTarih.year.toString().padLeft(4, '0')}-${secilenTarih.month.toString().padLeft(2, '0')}-${secilenTarih.day.toString().padLeft(2, '0')}";
 
-    // Günlük Ortalama Verisi
     final gunlukSnapshot = await dbRef.child('gunlukOrtalama').child(tarihStr).get();
     if (gunlukSnapshot.exists) {
       gunlukOrtalama = GunlukOrtalama.fromMap(gunlukSnapshot.value as Map<dynamic, dynamic>);
@@ -41,7 +40,6 @@ class _GunlukVeriSayfasiState extends State<GunlukVeriSayfasi> {
       gunlukOrtalama = null;
     }
 
-    // Saatlik Ortalama Verileri
     final saatlikSnapshot = await dbRef.child('saatlikOrtalama').child(tarihStr).get();
     if (saatlikSnapshot.exists) {
       final data = saatlikSnapshot.value as Map<dynamic, dynamic>;
@@ -76,7 +74,6 @@ class _GunlukVeriSayfasiState extends State<GunlukVeriSayfasi> {
   }
 
   String _saatFormatla(String hourKey) {
-    // Örn: "00:00" veya "01-00" → "00.00" formatına çevir
     if (hourKey.length >= 5) {
       return hourKey.substring(0, 5).replaceAll('-', '.').replaceAll(':', '.');
     } else {
